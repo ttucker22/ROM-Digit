@@ -438,24 +438,34 @@ const OPPOSITIONData = [
 
 function calculateImpairment(value, dataArray, type) {
     console.log(`Calculating impairment for ${type} with value: ${value}`);
+    console.log('Data array:', dataArray);
+    
     if (value === "" || isNaN(value)) {
         console.log(`Invalid value for ${type}, returning 0`);
         return 0;
     }
+    
     value = parseFloat(value);
-    const row = dataArray.find(row => row[type] === value) || 
-                dataArray.find(row => row[type] === `>${Math.abs(value)}`) ||
-                dataArray.find(row => row[type] === `<${Math.abs(value)}`);
+    
+    let row;
+    if (type === 'ankylosis' && dataArray === RADIALABDUCTIONData) {
+        // For ankylosis in RADIALABDUCTIONData, we need to look at the 'radialAbduction' property
+        row = dataArray.find(row => row.radialAbduction === value) || 
+              dataArray.find(row => row.radialAbduction === `>${Math.abs(value)}`) ||
+              dataArray.find(row => row.radialAbduction === `<${Math.abs(value)}`);
+    } else {
+        row = dataArray.find(row => row[type] === value) || 
+              dataArray.find(row => row[type] === `>${Math.abs(value)}`) ||
+              dataArray.find(row => row[type] === `<${Math.abs(value)}`);
+    }
     
     console.log(`Found row:`, row);
     
     if (row) {
-        if (type === 'radialAbduction') {
-            console.log(`Radial Abduction impairment:`, row.dtAbnormalMotion || 0);
-            return row.dtAbnormalMotion || 0;
-        } else if (type === 'ankylosis') {
-            console.log(`Ankylosis impairment:`, row.dtAnkylosis || 0);
-            return row.dtAnkylosis || 0;
+        if (type === 'radialAbduction' || (type === 'ankylosis' && dataArray === RADIALABDUCTIONData)) {
+            const impairment = row.dtAnkylosis || row.dtAbnormalMotion || 0;
+            console.log(`Radial Abduction/Ankylosis impairment:`, impairment);
+            return impairment;
         } else {
             const impairment = row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0;
             console.log(`Other impairment:`, impairment);
@@ -498,8 +508,11 @@ function updateImpairment() {
     document.getElementById('mp-imp').textContent = mpTotalImp;
 
     // Radial Abduction
-    const radialAbduction = document.getElementById('radial-abduction').value;
-    const radialAbductionAnkylosis = document.getElementById('radial-abduction-ankylosis').value;
+    const radialAbductionInput = document.getElementById('radial-abduction');
+    const radialAbductionAnkylosisInput = document.getElementById('radial-abduction-ankylosis');
+
+    const radialAbduction = radialAbductionInput.value.trim();
+    const radialAbductionAnkylosis = radialAbductionAnkylosisInput.value.trim();
 
     console.log(`Radial Abduction value: ${radialAbduction}`);
     console.log(`Radial Abduction Ankylosis value: ${radialAbductionAnkylosis}`);
