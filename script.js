@@ -436,13 +436,13 @@ const OPPOSITIONData = [
     { cm: 0, dtAbnormalMotion: 45, dtAnkylosis: 45 }
   ];
 
-function findImpairment(angle, data) {
+function findImpairment(value, data) {
     for (let i = 0; i < data.length; i++) {
-        if (data[i].angle === angle) {
+        if (data[i].angle === value || data[i].cm === value) {
             return data[i].impairment;
         }
     }
-    return 0; // Default impairment if angle not found
+    return 0; // Default impairment if value not found
 }
 
 function calculateImp() {
@@ -486,35 +486,22 @@ function calculateImp() {
     const radialAbduction = parseFloat(document.getElementById('radialAbduction').value) || 0;
     const radialAbductionImp = findImpairment(radialAbduction, RADIALABDUCTIONData);
     totalImp += radialAbductionImp;
-
     document.getElementById('radialAbductionImp').innerText = radialAbductionImp;
 
     // CMC Adduction
     const adduction = parseFloat(document.getElementById('adduction').value) || 0;
     const adductionImp = findImpairment(adduction, ADDUCTIONData);
     totalImp += adductionImp;
-
     document.getElementById('adductionImp').innerText = adductionImp;
 
     // CMC Opposition
     const opposition = parseFloat(document.getElementById('opposition').value) || 0;
     const oppositionImp = findImpairment(opposition, OPPOSITIONData);
     totalImp += oppositionImp;
-
     document.getElementById('oppositionImp').innerText = oppositionImp;
 
-    // Update total impairment
+    // Total Digit Impairment
     document.getElementById('totalDigitImpairment').innerText = totalImp;
-
-    // Debugging logs
-    console.log('IP Flexion:', ipFlexion, 'Impairment:', ipFlexionImp);
-    console.log('IP Extension:', ipExtension, 'Impairment:', ipExtensionImp);
-    console.log('MP Flexion:', mpFlexion, 'Impairment:', mpFlexionImp);
-    console.log('MP Extension:', mpExtension, 'Impairment:', mpExtensionImp);
-    console.log('Radial Abduction:', radialAbduction, 'Impairment:', radialAbductionImp);
-    console.log('Adduction:', adduction, 'Impairment:', adductionImp);
-    console.log('Opposition:', opposition, 'Impairment:', oppositionImp);
-    console.log('Total Impairment:', totalImp);
 }
 
 document.getElementById('calculate').addEventListener('click', calculateImp);
