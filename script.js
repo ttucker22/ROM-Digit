@@ -461,17 +461,25 @@ function updateImpairment() {
     const cmcAdductionImp = calculateImpairment(cmcAdduction, ADDUCTIONData, 'cm');
     const oppositionImp = calculateImpairment(opposition, OPPOSITIONData, 'cm');
 
-    const ipImp = ipFlexionImp + ipExtensionImp;
-    const mpImp = mpFlexionImp + mpExtensionImp;
-    const cmcImp = radialAbductionImp + cmcAdductionImp + oppositionImp;
+    document.getElementById('ip-flexion-imp').textContent = ipFlexionImp;
+    document.getElementById('ip-extension-imp').textContent = ipExtensionImp;
+    document.getElementById('ip-imp').textContent = ipFlexionImp + ipExtensionImp;
 
-    document.getElementById('ip-imp').textContent = ipImp;
-    document.getElementById('mp-imp').textContent = mpImp;
+    document.getElementById('mp-flexion-imp').textContent = mpFlexionImp;
+    document.getElementById('mp-extension-imp').textContent = mpExtensionImp;
+    document.getElementById('mp-imp').textContent = mpFlexionImp + mpExtensionImp;
+
+    document.getElementById('radial-abduction-motion-imp').textContent = radialAbductionImp;
     document.getElementById('radial-abduction-imp').textContent = radialAbductionImp;
+
     document.getElementById('cmc-adduction-imp').textContent = cmcAdductionImp;
     document.getElementById('opposition-imp').textContent = oppositionImp;
 
-    const totalImp = ipImp + mpImp + cmcImp;
+    const totalImp = (ipFlexionImp + ipExtensionImp) + 
+                     (mpFlexionImp + mpExtensionImp) + 
+                     radialAbductionImp + 
+                     cmcAdductionImp + 
+                     oppositionImp;
     document.getElementById('total-imp').textContent = totalImp;
 }
 
