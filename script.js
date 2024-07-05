@@ -446,7 +446,7 @@ function calculateImpairment(value, dataArray, type) {
     if (row) {
         if (type === 'radialAbduction') {
             return row.dtAbnormalMotion || 0;
-        } else if (type === 'ankylosis') {
+        } else if (type === 'ankylosis' && dataArray === RADIALABDUCTIONData) {
             return row.dtAnkylosis || 0;
         } else {
             return row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0;
