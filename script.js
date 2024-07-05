@@ -443,7 +443,14 @@ function calculateImpairment(value, dataArray, type) {
                 dataArray.find(row => row[type] === `>${Math.abs(value)}`) ||
                 dataArray.find(row => row[type] === `<${Math.abs(value)}`);
     
-    return row ? (row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || row[`dtAbnormalMotion`] || row[`dtAnkylosis`] || 0) : 0;
+    if (row) {
+        if (type === 'radialAbduction' || type === 'ankylosis') {
+            return row.dtAbnormalMotion || row.dtAnkylosis || 0;
+        } else {
+            return row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0;
+        }
+    }
+    return 0;
 }
 
 function updateImpairment() {
