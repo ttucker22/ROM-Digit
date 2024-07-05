@@ -530,23 +530,40 @@ function updateImpairment() {
 
     console.log(`Radial Abduction Total Impairment: ${radialAbductionTotalImp}`);
 
+
     // CMC Adduction
-    const cmcAdduction = document.getElementById('cmc-adduction').value;
-    const cmcAdductionAnkylosis = document.getElementById('cmc-adduction-ankylosis').value;
+    const cmcAdduction = document.getElementById('cmc-adduction').value.trim();
+    const cmcAdductionAnkylosis = document.getElementById('cmc-adduction-ankylosis').value.trim();
+
+    console.log(`CMC Adduction value: ${cmcAdduction}`);
+    console.log(`CMC Adduction Ankylosis value: ${cmcAdductionAnkylosis}`);
 
     let cmcAdductionImp = calculateImpairment(cmcAdduction, ADDUCTIONData, 'cm');
     let cmcAdductionAnkylosisImp = calculateImpairment(cmcAdductionAnkylosis, ADDUCTIONData, 'ankylosis');
 
+    console.log(`CMC Adduction Impairment: ${cmcAdductionImp}`);
+    console.log(`CMC Adduction Ankylosis Impairment: ${cmcAdductionAnkylosisImp}`);
+
+    document.getElementById('cmc-adduction-motion-imp').textContent = cmcAdductionImp;
+    document.getElementById('cmc-adduction-ankylosis-imp').textContent = cmcAdductionAnkylosisImp;
     let cmcAdductionTotalImp = Math.max(cmcAdductionImp, cmcAdductionAnkylosisImp);
     document.getElementById('cmc-adduction-imp').textContent = cmcAdductionTotalImp;
 
     // Opposition
-    const opposition = document.getElementById('opposition').value;
-    const oppositionAnkylosis = document.getElementById('opposition-ankylosis').value;
+    const opposition = document.getElementById('opposition').value.trim();
+    const oppositionAnkylosis = document.getElementById('opposition-ankylosis').value.trim();
+
+    console.log(`Opposition value: ${opposition}`);
+    console.log(`Opposition Ankylosis value: ${oppositionAnkylosis}`);
 
     let oppositionImp = calculateImpairment(opposition, OPPOSITIONData, 'cm');
     let oppositionAnkylosisImp = calculateImpairment(oppositionAnkylosis, OPPOSITIONData, 'ankylosis');
 
+    console.log(`Opposition Impairment: ${oppositionImp}`);
+    console.log(`Opposition Ankylosis Impairment: ${oppositionAnkylosisImp}`);
+
+    document.getElementById('opposition-motion-imp').textContent = oppositionImp;
+    document.getElementById('opposition-ankylosis-imp').textContent = oppositionAnkylosisImp;
     let oppositionTotalImp = Math.max(oppositionImp, oppositionAnkylosisImp);
     document.getElementById('opposition-imp').textContent = oppositionTotalImp;
 
