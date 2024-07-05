@@ -437,6 +437,8 @@ const OPPOSITIONData = [
   ];
 
 function calculateImpairment(value, dataArray, type) {
+    if (value === "" || isNaN(value)) return 0;
+    value = parseFloat(value);
     const row = dataArray.find(row => row[type] === value) || 
                 dataArray.find(row => row[type] === `>${Math.abs(value)}`) ||
                 dataArray.find(row => row[type] === `<${Math.abs(value)}`);
@@ -445,41 +447,54 @@ function calculateImpairment(value, dataArray, type) {
 }
 
 function updateImpairment() {
-    const ipFlexion = parseInt(document.getElementById('ip-flexion').value);
-    const ipExtension = parseInt(document.getElementById('ip-extension').value);
-    const mpFlexion = parseInt(document.getElementById('mp-flexion').value);
-    const mpExtension = parseInt(document.getElementById('mp-extension').value);
-    const radialAbduction = parseInt(document.getElementById('radial-abduction').value);
-    const cmcAdduction = parseFloat(document.getElementById('cmc-adduction').value);
-    const opposition = parseFloat(document.getElementById('opposition').value);
+    const ipFlexion = document.getElementById('ip-flexion').value;
+    const ipExtension = document.getElementById('ip-extension').value;
+    const ipAnkylosis = document.getElementById('ip-ankylosis').value;
+    const mpFlexion = document.getElementById('mp-flexion').value;
+    const mpExtension = document.getElementById('mp-extension').value;
+    const mpAnkylosis = document.getElementById('mp-ankylosis').value;
+    const radialAbduction = document.getElementById('radial-abduction').value;
+    const radialAbductionAnkylosis = document.getElementById('radial-abduction-ankylosis').value;
+    const cmcAdduction = document.getElementById('cmc-adduction').value;
+    const cmcAdductionAnkylosis = document.getElementById('cmc-adduction-ankylosis').value;
+    const opposition = document.getElementById('opposition').value;
+    const oppositionAnkylosis = document.getElementById('opposition-ankylosis').value;
 
-    const ipFlexionImp = calculateImpairment(ipFlexion, IPData, 'flexion');
-    const ipExtensionImp = calculateImpairment(ipExtension, IPData, 'extension');
-    const mpFlexionImp = calculateImpairment(mpFlexion, MPData, 'flexion');
-    const mpExtensionImp = calculateImpairment(mpExtension, MPData, 'extension');
-    const radialAbductionImp = calculateImpairment(radialAbduction, RADIALABDUCTIONData, 'radialAbduction');
-    const cmcAdductionImp = calculateImpairment(cmcAdduction, ADDUCTIONData, 'cm');
-    const oppositionImp = calculateImpairment(opposition, OPPOSITIONData, 'cm');
+    let ipFlexionImp = calculateImpairment(ipFlexion, IPData, 'flexion');
+    let ipExtensionImp = calculateImpairment(ipExtension, IPData, 'extension');
+    let ipAnkylosisImp = calculateImpairment(ipAnkylosis, IPData, 'ankylosis');
+    let mpFlexionImp = calculateImpairment(mpFlexion, MPData, 'flexion');
+    let mpExtensionImp = calculateImpairment(mpExtension, MPData, 'extension');
+    let mpAnkylosisImp = calculateImpairment(mpAnkylosis, MPData, 'ankylosis');
+    let radialAbductionImp = calculateImpairment(radialAbduction, RADIALABDUCTIONData, 'radialAbduction');
+    let radialAbductionAnkylosisImp = calculateImpairment(radialAbductionAnkylosis, RADIALABDUCTIONData, 'ankylosis');
+    let cmcAdductionImp = calculateImpairment(cmcAdduction, ADDUCTIONData, 'cm');
+    let cmcAdductionAnkylosisImp = calculateImpairment(cmcAdductionAnkylosis, ADDUCTIONData, 'ankylosis');
+    let oppositionImp = calculateImpairment(opposition, OPPOSITIONData, 'cm');
+    let oppositionAnkylosisImp = calculateImpairment(oppositionAnkylosis, OPPOSITIONData, 'ankylosis');
 
     document.getElementById('ip-flexion-imp').textContent = ipFlexionImp;
     document.getElementById('ip-extension-imp').textContent = ipExtensionImp;
-    document.getElementById('ip-imp').textContent = ipFlexionImp + ipExtensionImp;
+    document.getElementById('ip-ankylosis-imp').textContent = ipAnkylosisImp;
+    document.getElementById('ip-imp').textContent = Math.max(ipFlexionImp + ipExtensionImp, ipAnkylosisImp);
 
     document.getElementById('mp-flexion-imp').textContent = mpFlexionImp;
     document.getElementById('mp-extension-imp').textContent = mpExtensionImp;
-    document.getElementById('mp-imp').textContent = mpFlexionImp + mpExtensionImp;
+    document.getElementById('mp-ankylosis-imp').textContent = mpAnkylosisImp;
+    document.getElementById('mp-imp').textContent = Math.max(mpFlexionImp + mpExtensionImp, mpAnkylosisImp);
 
     document.getElementById('radial-abduction-motion-imp').textContent = radialAbductionImp;
-    document.getElementById('radial-abduction-imp').textContent = radialAbductionImp;
+    document.getElementById('radial-abduction-ankylosis-imp').textContent = radialAbductionAnkylosisImp;
+    document.getElementById('radial-abduction-imp').textContent = Math.max(radialAbductionImp, radialAbductionAnkylosisImp);
 
-    document.getElementById('cmc-adduction-imp').textContent = cmcAdductionImp;
-    document.getElementById('opposition-imp').textContent = oppositionImp;
+    document.getElementById('cmc-adduction-imp').textContent = Math.max(cmcAdductionImp, cmcAdductionAnkylosisImp);
+    document.getElementById('opposition-imp').textContent = Math.max(oppositionImp, oppositionAnkylosisImp);
 
-    const totalImp = (ipFlexionImp + ipExtensionImp) + 
-                     (mpFlexionImp + mpExtensionImp) + 
-                     radialAbductionImp + 
-                     cmcAdductionImp + 
-                     oppositionImp;
+    const totalImp = Math.max(ipFlexionImp + ipExtensionImp, ipAnkylosisImp) + 
+                     Math.max(mpFlexionImp + mpExtensionImp, mpAnkylosisImp) + 
+                     Math.max(radialAbductionImp, radialAbductionAnkylosisImp) + 
+                     Math.max(cmcAdductionImp, cmcAdductionAnkylosisImp) + 
+                     Math.max(oppositionImp, oppositionAnkylosisImp);
     document.getElementById('total-imp').textContent = totalImp;
 }
 
