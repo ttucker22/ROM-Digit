@@ -4,22 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thumb ROM Impairment Calculator</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        .table td, .table th {
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
             text-align: center;
         }
-        .form-control {
-            display: inline-block;
-            width: 80px;
+        th {
+            background-color: #f2f2f2;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
             text-align: center;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="text-center">Thumb ROM Impairment Calculator</h1>
-        <table class="table table-bordered mt-4">
+    <div class="container">
+        <h1>Thumb ROM Impairment Calculator</h1>
+        <table>
             <thead>
                 <tr>
                     <th rowspan="2">Joint</th>
@@ -40,64 +59,61 @@
             <tbody>
                 <tr>
                     <td>IP</td>
-                    <td><input type="number" id="ipFlexion" class="form-control"></td>
+                    <td><input type="number" id="ipFlexion"></td>
                     <td id="ipFlexionImp">0</td>
-                    <td><input type="number" id="ipExtension" class="form-control"></td>
+                    <td><input type="number" id="ipExtension"></td>
                     <td id="ipExtensionImp">0</td>
-                    <td><input type="number" id="ipAnkylosis" class="form-control"></td>
+                    <td><input type="number" id="ipAnkylosis"></td>
                     <td id="ipAnkylosisImp">0</td>
                     <td id="ipImp">0</td>
                 </tr>
                 <tr>
                     <td>MP</td>
-                    <td><input type="number" id="mpFlexion" class="form-control"></td>
+                    <td><input type="number" id="mpFlexion"></td>
                     <td id="mpFlexionImp">0</td>
-                    <td><input type="number" id="mpExtension" class="form-control"></td>
+                    <td><input type="number" id="mpExtension"></td>
                     <td id="mpExtensionImp">0</td>
-                    <td><input type="number" id="mpAnkylosis" class="form-control"></td>
+                    <td><input type="number" id="mpAnkylosis"></td>
                     <td id="mpAnkylosisImp">0</td>
                     <td id="mpImp">0</td>
                 </tr>
                 <tr>
                     <td>CMC Radial Abduction</td>
-                    <td><input type="number" id="radialAbduction" class="form-control"></td>
+                    <td><input type="number" id="radialAbduction"></td>
                     <td id="radialAbductionImp">0</td>
                     <td></td>
                     <td></td>
-                    <td><input type="number" id="radialAbductionAnkylosis" class="form-control"></td>
+                    <td></td>
                     <td id="radialAbductionAnkylosisImp">0</td>
                     <td id="radialAbductionImpTotal">0</td>
                 </tr>
                 <tr>
                     <td>CMC Adduction</td>
-                    <td><input type="number" id="adduction" class="form-control"></td>
+                    <td><input type="number" id="adduction"></td>
                     <td id="adductionImp">0</td>
                     <td></td>
                     <td></td>
-                    <td><input type="number" id="adductionAnkylosis" class="form-control"></td>
+                    <td></td>
                     <td id="adductionAnkylosisImp">0</td>
                     <td id="adductionImpTotal">0</td>
                 </tr>
                 <tr>
                     <td>CMC Opposition</td>
-                    <td><input type="number" id="opposition" class="form-control"></td>
+                    <td><input type="number" id="opposition"></td>
                     <td id="oppositionImp">0</td>
                     <td></td>
                     <td></td>
-                    <td><input type="number" id="oppositionAnkylosis" class="form-control"></td>
+                    <td></td>
                     <td id="oppositionAnkylosisImp">0</td>
                     <td id="oppositionImpTotal">0</td>
                 </tr>
             </tbody>
         </table>
-        <div class="text-center">
-            <button onclick="calculateImpairment()" class="btn btn-primary">Calculate</button>
-        </div>
-        <div class="text-center mt-3">
-            <h4>Total Digit Impairment %: <span id="totalImp">0</span></h4>
+        <button id="calculate">Calculate</button>
+        <div class="result">
+            Total Digit Impairment %: <span id="totalDigitImpairment">0</span>
         </div>
     </div>
-
-    <script src="script.js"></script>
+    <script src="thumb.js"></script>
 </body>
 </html>
