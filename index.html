@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROM to DT Impairment Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+        }
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .form-section {
+            background: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            flex: 1 1 400px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007BFF;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        #result {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>ROM to DT Impairment Calculator</h1>
+    <div class="form-container">
+        <!-- Existing Finger Forms -->
+        <div class="form-section" id="index-finger">
+            <h2>Index Finger</h2>
+            <form id="indexForm">
+                <!-- Add form fields for index finger joints -->
+            </form>
+        </div>
+        <div class="form-section" id="middle-finger">
+            <h2>Middle Finger</h2>
+            <form id="middleForm">
+                <!-- Add form fields for middle finger joints -->
+            </form>
+        </div>
+        <div class="form-section" id="ring-finger">
+            <h2>Ring Finger</h2>
+            <form id="ringForm">
+                <!-- Add form fields for ring finger joints -->
+            </form>
+        </div>
+        <div class="form-section" id="little-finger">
+            <h2>Little Finger</h2>
+            <form id="littleForm">
+                <!-- Add form fields for little finger joints -->
+            </form>
+        </div>
+        <!-- New Thumb Form -->
+        <div class="form-section" id="thumb">
+            <h2>Thumb</h2>
+            <form id="thumbForm">
+                <!-- Add form fields for thumb joints -->
+                <label for="thumbFlexion">Flexion (°):</label>
+                <input type="number" id="thumbFlexion" name="thumbFlexion">
+                <label for="thumbExtension">Extension (°):</label>
+                <input type="number" id="thumbExtension" name="thumbExtension">
+                <label for="thumbAnkylosis">Ankylosis (°):</label>
+                <input type="number" id="thumbAnkylosis" name="thumbAnkylosis">
+                <label for="thumbRadialAbduction">Radial Abduction (°):</label>
+                <input type="number" id="thumbRadialAbduction" name="thumbRadialAbduction">
+                <label for="thumbAdduction">Adduction (cm):</label>
+                <input type="number" id="thumbAdduction" name="thumbAdduction">
+                <label for="thumbOpposition">Opposition (cm):</label>
+                <input type="number" id="thumbOpposition" name="thumbOpposition">
+                <button type="button" onclick="calculateThumb()">Calculate</button>
+            </form>
+            <p id="thumbResult"></p>
+        </div>
+    </div>
+    <div id="result"></div>
+    <script src="script.js"></script>
+    <script src="thumb.js"></script>
+</body>
+</html>
