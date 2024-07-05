@@ -437,21 +437,32 @@ const OPPOSITIONData = [
   ];
 
 function calculateImpairment(value, dataArray, type) {
-    if (value === "" || isNaN(value)) return 0;
+    console.log(`Calculating impairment for ${type} with value: ${value}`);
+    if (value === "" || isNaN(value)) {
+        console.log(`Invalid value for ${type}, returning 0`);
+        return 0;
+    }
     value = parseFloat(value);
     const row = dataArray.find(row => row[type] === value) || 
                 dataArray.find(row => row[type] === `>${Math.abs(value)}`) ||
                 dataArray.find(row => row[type] === `<${Math.abs(value)}`);
     
+    console.log(`Found row:`, row);
+    
     if (row) {
         if (type === 'radialAbduction') {
+            console.log(`Radial Abduction impairment:`, row.dtAbnormalMotion || 0);
             return row.dtAbnormalMotion || 0;
-        } else if (type === 'ankylosis' && dataArray === RADIALABDUCTIONData) {
+        } else if (type === 'ankylosis') {
+            console.log(`Ankylosis impairment:`, row.dtAnkylosis || 0);
             return row.dtAnkylosis || 0;
         } else {
-            return row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0;
+            const impairment = row[`dt${type.charAt(0).toUpperCase() + type.slice(1)}`] || 0;
+            console.log(`Other impairment:`, impairment);
+            return impairment;
         }
     }
+    console.log(`No matching row found, returning 0`);
     return 0;
 }
 
@@ -490,13 +501,21 @@ function updateImpairment() {
     const radialAbduction = document.getElementById('radial-abduction').value;
     const radialAbductionAnkylosis = document.getElementById('radial-abduction-ankylosis').value;
 
+    console.log(`Radial Abduction value: ${radialAbduction}`);
+    console.log(`Radial Abduction Ankylosis value: ${radialAbductionAnkylosis}`);
+
     let radialAbductionImp = calculateImpairment(radialAbduction, RADIALABDUCTIONData, 'radialAbduction');
     let radialAbductionAnkylosisImp = calculateImpairment(radialAbductionAnkylosis, RADIALABDUCTIONData, 'ankylosis');
+
+    console.log(`Radial Abduction Impairment: ${radialAbductionImp}`);
+    console.log(`Radial Abduction Ankylosis Impairment: ${radialAbductionAnkylosisImp}`);
 
     document.getElementById('radial-abduction-motion-imp').textContent = radialAbductionImp;
     document.getElementById('radial-abduction-ankylosis-imp').textContent = radialAbductionAnkylosisImp;
     let radialAbductionTotalImp = Math.max(radialAbductionImp, radialAbductionAnkylosisImp);
     document.getElementById('radial-abduction-imp').textContent = radialAbductionTotalImp;
+
+    console.log(`Radial Abduction Total Impairment: ${radialAbductionTotalImp}`);
 
     // CMC Adduction
     const cmcAdduction = document.getElementById('cmc-adduction').value;
