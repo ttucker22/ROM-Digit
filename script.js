@@ -444,10 +444,17 @@ function calculateImpairment(value, dataArray, type) {
     }
     value = parseFloat(value);
     let row;
+    
     if (type === 'radialAbduction' || type === 'cm') {
         row = dataArray.find(r => r[type] === value) || 
               dataArray.find(r => r[type] === `>${Math.abs(value)}`) ||
               dataArray.find(r => r[type] === `<${Math.abs(value)}`);
+    } else if (type === 'ankylosis' && (dataArray === RADIALABDUCTIONData || dataArray === ADDUCTIONData || dataArray === OPPOSITIONData)) {
+        // For ankylosis in these specific datasets, we need to look at the 'radialAbduction' or 'cm' property
+        const lookupType = dataArray === RADIALABDUCTIONData ? 'radialAbduction' : 'cm';
+        row = dataArray.find(r => r[lookupType] === value) || 
+              dataArray.find(r => r[lookupType] === `>${Math.abs(value)}`) ||
+              dataArray.find(r => r[lookupType] === `<${Math.abs(value)}`);
     } else {
         row = dataArray.find(r => r[type] === value);
     }
@@ -500,7 +507,7 @@ function updateImpairment() {
     let mpTotalImp = Math.max(mpFlexionImp + mpExtensionImp, mpAnkylosisImp);
     document.getElementById('mp-imp').textContent = mpTotalImp;
 
- // Radial Abduction
+    // Radial Abduction
     const radialAbduction = document.getElementById('radial-abduction').value.trim();
     const radialAbductionAnkylosis = document.getElementById('radial-abduction-ankylosis').value.trim();
 
