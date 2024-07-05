@@ -5,115 +5,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thumb ROM Impairment Calculator</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
         table, th, td {
             border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
         }
         th, td {
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            text-align: center;
-        }
-        .result {
-            margin-top: 20px;
-            font-size: 1.2em;
+            padding: 5px;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Thumb ROM Impairment Calculator</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th rowspan="2">Joint</th>
-                    <th colspan="2">Flexion</th>
-                    <th colspan="2">Extension</th>
-                    <th colspan="2">Ankylosis</th>
-                    <th rowspan="2">Imp%</th>
-                </tr>
-                <tr>
-                    <th>Angle°</th>
-                    <th>Imp%</th>
-                    <th>Angle°</th>
-                    <th>Imp%</th>
-                    <th>Angle°</th>
-                    <th>Imp%</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>IP</td>
-                    <td><input type="number" id="ipFlexion"></td>
-                    <td id="ipFlexionImp">0</td>
-                    <td><input type="number" id="ipExtension"></td>
-                    <td id="ipExtensionImp">0</td>
-                    <td><input type="number" id="ipAnkylosis"></td>
-                    <td id="ipAnkylosisImp">0</td>
-                    <td id="ipImp">0</td>
-                </tr>
-                <tr>
-                    <td>MP</td>
-                    <td><input type="number" id="mpFlexion"></td>
-                    <td id="mpFlexionImp">0</td>
-                    <td><input type="number" id="mpExtension"></td>
-                    <td id="mpExtensionImp">0</td>
-                    <td><input type="number" id="mpAnkylosis"></td>
-                    <td id="mpAnkylosisImp">0</td>
-                    <td id="mpImp">0</td>
-                </tr>
-                <tr>
-                    <td>CMC Radial Abduction</td>
-                    <td><input type="number" id="radialAbduction"></td>
-                    <td id="radialAbductionImp">0</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td id="radialAbductionAnkylosisImp">0</td>
-                    <td id="radialAbductionImpTotal">0</td>
-                </tr>
-                <tr>
-                    <td>CMC Adduction</td>
-                    <td><input type="number" id="adduction"></td>
-                    <td id="adductionImp">0</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td id="adductionAnkylosisImp">0</td>
-                    <td id="adductionImpTotal">0</td>
-                </tr>
-                <tr>
-                    <td>CMC Opposition</td>
-                    <td><input type="number" id="opposition"></td>
-                    <td id="oppositionImp">0</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td id="oppositionAnkylosisImp">0</td>
-                    <td id="oppositionImpTotal">0</td>
-                </tr>
-            </tbody>
-        </table>
-        <button id="calculate">Calculate</button>
-        <div class="result">
-            Total Digit Impairment %: <span id="totalDigitImpairment">0</span>
-        </div>
-    </div>
+    <h1>Thumb ROM Impairment Calculator</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Joint</th>
+                <th colspan="2">Flexion</th>
+                <th colspan="2">Extension</th>
+                <th colspan="2">Ankylosis</th>
+                <th>Total Joint Impairment</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td rowspan="2">IP</td>
+                <td>Angle°</td>
+                <td><input type="number" id="ipFlexion" value="0"></td>
+                <td>Angle°</td>
+                <td><input type="number" id="ipExtension" value="0"></td>
+                <td>Angle°</td>
+                <td><input type="number" id="ipAnkylosis" value="0"></td>
+                <td rowspan="2" id="ipImp">0</td>
+            </tr>
+            <tr>
+                <td>Imp%</td>
+                <td id="ipFlexionImp">0</td>
+                <td>Imp%</td>
+                <td id="ipExtensionImp">0</td>
+                <td>Imp%</td>
+                <td id="ipAnkylosisImp">0</td>
+            </tr>
+            <tr>
+                <td rowspan="2">MP</td>
+                <td>Angle°</td>
+                <td><input type="number" id="mpFlexion" value="0"></td>
+                <td>Angle°</td>
+                <td><input type="number" id="mpExtension" value="0"></td>
+                <td>Angle°</td>
+                <td><input type="number" id="mpAnkylosis" value="0"></td>
+                <td rowspan="2" id="mpImp">0</td>
+            </tr>
+            <tr>
+                <td>Imp%</td>
+                <td id="mpFlexionImp">0</td>
+                <td>Imp%</td>
+                <td id="mpExtensionImp">0</td>
+                <td>Imp%</td>
+                <td id="mpAnkylosisImp">0</td>
+            </tr>
+            <tr>
+                <td>CMC Radial Abduction</td>
+                <td colspan="2">Angle°</td>
+                <td colspan="2"><input type="number" id="radialAbduction" value="0"></td>
+                <td colspan="2" id="radialAbductionImp">0</td>
+            </tr>
+            <tr>
+                <td>CMC Adduction</td>
+                <td colspan="2">CM</td>
+                <td colspan="2"><input type="number" id="adduction" value="0"></td>
+                <td colspan="2" id="adductionImp">0</td>
+            </tr>
+            <tr>
+                <td>CMC Opposition</td>
+                <td colspan="2">CM</td>
+                <td colspan="2"><input type="number" id="opposition" value="0"></td>
+                <td colspan="2" id="oppositionImp">0</td>
+            </tr>
+        </tbody>
+    </table>
+    <button id="calculate">Calculate</button>
+    <h2>Total Digit Impairment %: <span id="totalDigitImpairment">0</span></h2>
     <script src="thumb.js"></script>
 </body>
 </html>
