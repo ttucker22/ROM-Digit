@@ -436,72 +436,102 @@ const OPPOSITIONData = [
     { cm: 0, dtAbnormalMotion: 45, dtAnkylosis: 45 }
   ];
 
-function calculateImpairment() {
-    const ipFlexion = parseFloat(document.getElementById('ipFlexion').value) || 0;
-    const ipExtension = parseFloat(document.getElementById('ipExtension').value) || 0;
-    const ipAnkylosis = parseFloat(document.getElementById('ipAnkylosis').value) || 0;
+function findImpairment(data, value, field) {
+    for (let i = 0; i < data.length; i++) {
+        if (data[i][field] === value || (typeof data[i][field] === 'string' && data[i][field].includes('>') && value >= parseFloat(data[i][field].substring(1))) || (typeof data[i][field] === 'string' && data[i][field].includes('<') && value <= parseFloat(data[i][field].substring(1)))) {
+            return data[i];
+        }
+    }
+    return null;
+}
 
-    const mpFlexion = parseFloat(document.getElementById('mpFlexion').value) || 0;
-    const mpExtension = parseFloat(document.getElementById('mpExtension').value) || 0;
-    const mpAnkylosis = parseFloat(document.getElementById('mpAnkylosis').value) || 0;
+function calculateImp() {
+    let totalImp = 0;
 
-    const radialAbduction = parseFloat(document.getElementById('radialAbduction').value) || 0;
-    const radialAbductionAnkylosis = parseFloat(document.getElementById('radialAbductionAnkylosis').value) || 0;
+    // IP Joint
+    const ipFlexion = parseInt(document.getElementById('ipFlexion').value);
+    const ipExtension = parseInt(document.getElementById('ipExtension').value);
+    const ipAnkylosis = parseInt(document.getElementById('ipAnkylosis').value);
 
-    const adduction = parseFloat(document.getElementById('adduction').value) || 0;
-    const adductionAnkylosis = parseFloat(document.getElementById('adductionAnkylosis').value) || 0;
+    const ipFlexionData = findImpairment(IPData, ipFlexion, 'flexion');
+    const ipExtensionData = findImpairment(IPData, ipExtension, 'extension');
+    const ipAnkylosisData = findImpairment(IPData, ipAnkylosis, 'ankylosis');
 
-    const opposition = parseFloat(document.getElementById('opposition').value) || 0;
-    const oppositionAnkylosis = parseFloat(document.getElementById('oppositionAnkylosis').value) || 0;
+    const ipFlexionImp = ipFlexionData ? ipFlexionData.dtFlexion : 0;
+    const ipExtensionImp = ipExtensionData ? ipExtensionData.dtExtension : 0;
+    const ipAnkylosisImp = ipAnkylosisData ? ipAnkylosisData.dtAnkylosis : 0;
 
-    const ipFlexionImp = findImpairment(IPData, 'flexion', ipFlexion);
-    const ipExtensionImp = findImpairment(IPData, 'extension', ipExtension);
-    const ipAnkylosisImp = findImpairment(IPData, 'ankylosis', ipAnkylosis);
-
-    const mpFlexionImp = findImpairment(MPData, 'flexion', mpFlexion);
-    const mpExtensionImp = findImpairment(MPData, 'extension', mpExtension);
-    const mpAnkylosisImp = findImpairment(MPData, 'ankylosis', mpAnkylosis);
-
-    const radialAbductionImp = findImpairment(RADIALABDUCTIONData, 'lackOfRadialAbduction', radialAbduction);
-    const radialAbductionAnkylosisImp = findImpairment(RADIALABDUCTIONData, 'ankylosis', radialAbductionAnkylosis);
-
-    const adductionImp = findImpairment(ADDUCTIONData, 'abnormalMotion', adduction);
-    const adductionAnkylosisImp = findImpairment(ADDUCTIONData, 'ankylosis', adductionAnkylosis);
-
-    const totalIPImp = ipFlexionImp + ipExtensionImp + ipAnkylosisImp;
-    const totalMPImp = mpFlexionImp + mpExtensionImp + mpAnkylosisImp;
-    const totalRadialAbductionImp = radialAbductionImp + radialAbductionAnkylosisImp;
-    const totalAdductionImp = adductionImp + adductionAnkylosisImp;
-    const totalOppositionImp = 0; // Modify this as per your opposition data
+    const ipImp = ipFlexionImp + ipExtensionImp + ipAnkylosisImp;
 
     document.getElementById('ipFlexionImp').innerText = ipFlexionImp;
     document.getElementById('ipExtensionImp').innerText = ipExtensionImp;
     document.getElementById('ipAnkylosisImp').innerText = ipAnkylosisImp;
-    document.getElementById('ipImp').innerText = totalIPImp;
+    document.getElementById('ipImp').innerText = ipImp;
+
+    totalImp += ipImp;
+
+    // MP Joint
+    const mpFlexion = parseInt(document.getElementById('mpFlexion').value);
+    const mpExtension = parseInt(document.getElementById('mpExtension').value);
+    const mpAnkylosis = parseInt(document.getElementById('mpAnkylosis').value);
+
+    const mpFlexionData = findImpairment(MPData, mpFlexion, 'flexion');
+    const mpExtensionData = findImpairment(MPData, mpExtension, 'extension');
+    const mpAnkylosisData = findImpairment(MPData, mpAnkylosis, 'ankylosis');
+
+    const mpFlexionImp = mpFlexionData ? mpFlexionData.dtFlexion : 0;
+    const mpExtensionImp = mpExtensionData ? mpExtensionData.dtExtension : 0;
+    const mpAnkylosisImp = mpAnkylosisData ? mpAnkylosisData.dtAnkylosis : 0;
+
+    const mpImp = mpFlexionImp + mpExtensionImp + mpAnkylosisImp;
 
     document.getElementById('mpFlexionImp').innerText = mpFlexionImp;
     document.getElementById('mpExtensionImp').innerText = mpExtensionImp;
     document.getElementById('mpAnkylosisImp').innerText = mpAnkylosisImp;
-    document.getElementById('mpImp').innerText = totalMPImp;
+    document.getElementById('mpImp').innerText = mpImp;
+
+    totalImp += mpImp;
+
+    // CMC Joint Radial Abduction
+    const radialAbduction = parseInt(document.getElementById('radialAbduction').value);
+    const radialAbductionData = findImpairment(RADIALABDUCTIONData, radialAbduction, 'radialAbduction');
+    const radialAbductionImp = radialAbductionData ? radialAbductionData.dtAbnormalMotion : 0;
+    const radialAbductionAnkylosisImp = radialAbductionData ? radialAbductionData.dtAnkylosis : 0;
+    const radialAbductionTotalImp = Math.max(radialAbductionImp, radialAbductionAnkylosisImp);
 
     document.getElementById('radialAbductionImp').innerText = radialAbductionImp;
     document.getElementById('radialAbductionAnkylosisImp').innerText = radialAbductionAnkylosisImp;
-    document.getElementById('radialAbductionImpTotal').innerText = totalRadialAbductionImp;
+    document.getElementById('radialAbductionImpTotal').innerText = radialAbductionTotalImp;
+
+    totalImp += radialAbductionTotalImp;
+
+    // CMC Joint Adduction
+    const adduction = parseInt(document.getElementById('adduction').value);
+    const adductionData = findImpairment(ADDUCTIONData, adduction, 'cm');
+    const adductionImp = adductionData ? adductionData.dtAbnormalMotion : 0;
+    const adductionAnkylosisImp = adductionData ? adductionData.dtAnkylosis : 0;
+    const adductionTotalImp = Math.max(adductionImp, adductionAnkylosisImp);
 
     document.getElementById('adductionImp').innerText = adductionImp;
     document.getElementById('adductionAnkylosisImp').innerText = adductionAnkylosisImp;
-    document.getElementById('adductionImpTotal').innerText = totalAdductionImp;
+    document.getElementById('adductionImpTotal').innerText = adductionTotalImp;
 
-    document.getElementById('oppositionImp').innerText = 0;
-    document.getElementById('oppositionAnkylosisImp').innerText = 0;
-    document.getElementById('oppositionImpTotal').innerText = totalOppositionImp;
+    totalImp += adductionTotalImp;
 
-    const totalImpairment = totalIPImp + totalMPImp + totalRadialAbductionImp + totalAdductionImp + totalOppositionImp;
-    document.getElementById('totalImp').innerText = totalImpairment;
+    // CMC Joint Opposition
+    const opposition = parseInt(document.getElementById('opposition').value);
+    const oppositionData = findImpairment(OPPOSITIONData, opposition, 'cm');
+    const oppositionImp = oppositionData ? oppositionData.dtAbnormalMotion : 0;
+    const oppositionAnkylosisImp = oppositionData ? oppositionData.dtAnkylosis : 0;
+    const oppositionTotalImp = Math.max(oppositionImp, oppositionAnkylosisImp);
+    document.getElementById('oppositionImp').innerText = oppositionImp;
+    document.getElementById('oppositionAnkylosisImp').innerText = oppositionAnkylosisImp;
+    document.getElementById('oppositionImpTotal').innerText = oppositionTotalImp;
+
+    totalImp += oppositionTotalImp;
+
+    // Update total impairment
+    document.getElementById('totalDigitImpairment').innerText = totalImp;
 }
 
-function findImpairment(data, type, value) {
-    const entry = data.find(d => d.angle === value || d.cm === value);
-    if (!entry) return 0;
-    return entry[type];
-}
+document.getElementById('calculate').addEventListener('click', calculateImp);
