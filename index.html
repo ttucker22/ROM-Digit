@@ -3,107 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROM to DT Impairment Calculator</title>
+    <title>Thumb ROM Impairment Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            text-align: center;
-        }
-        .form-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .form-section {
-            background: #fff;
-            padding: 20px;
-            margin: 10px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            flex: 1 1 400px;
-        }
-        label {
-            display: block;
-            margin: 10px 0 5px;
-        }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            background: #007BFF;
-            color: #fff;
-            cursor: pointer;
-        }
-        button:hover {
-            background: #0056b3;
-        }
-        #result {
-            text-align: center;
-            margin-top: 20px;
-        }
+        .container { margin-top: 20px; }
+        table { width: 100%; }
+        th, td { text-align: center; }
     </style>
 </head>
 <body>
-    <h1>ROM to DT Impairment Calculator</h1>
-    <div class="form-container">
-        <!-- Existing Finger Forms -->
-        <div class="form-section" id="index-finger">
-            <h2>Index Finger</h2>
-            <form id="indexForm">
-                <!-- Add form fields for index finger joints -->
-            </form>
-        </div>
-        <div class="form-section" id="middle-finger">
-            <h2>Middle Finger</h2>
-            <form id="middleForm">
-                <!-- Add form fields for middle finger joints -->
-            </form>
-        </div>
-        <div class="form-section" id="ring-finger">
-            <h2>Ring Finger</h2>
-            <form id="ringForm">
-                <!-- Add form fields for ring finger joints -->
-            </form>
-        </div>
-        <div class="form-section" id="little-finger">
-            <h2>Little Finger</h2>
-            <form id="littleForm">
-                <!-- Add form fields for little finger joints -->
-            </form>
-        </div>
-        <!-- New Thumb Form -->
-        <div class="form-section" id="thumb">
-            <h2>Thumb</h2>
-            <form id="thumbForm">
-                <!-- Add form fields for thumb joints -->
-                <label for="thumbFlexion">Flexion (°):</label>
-                <input type="number" id="thumbFlexion" name="thumbFlexion">
-                <label for="thumbExtension">Extension (°):</label>
-                <input type="number" id="thumbExtension" name="thumbExtension">
-                <label for="thumbAnkylosis">Ankylosis (°):</label>
-                <input type="number" id="thumbAnkylosis" name="thumbAnkylosis">
-                <label for="thumbRadialAbduction">Radial Abduction (°):</label>
-                <input type="number" id="thumbRadialAbduction" name="thumbRadialAbduction">
-                <label for="thumbAdduction">Adduction (cm):</label>
-                <input type="number" id="thumbAdduction" name="thumbAdduction">
-                <label for="thumbOpposition">Opposition (cm):</label>
-                <input type="number" id="thumbOpposition" name="thumbOpposition">
-                <button type="button" onclick="calculateThumb()">Calculate</button>
-            </form>
-            <p id="thumbResult"></p>
-        </div>
+    <div class="container">
+        <h1 class="text-center">Thumb ROM Impairment Calculator</h1>
+        <p class="text-center">Based on provided thumb joint data</p>
+        <form id="thumbForm">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th rowspan="2">Joint</th>
+                        <th colspan="3">Flexion</th>
+                        <th colspan="3">Extension</th>
+                        <th colspan="3">Ankylosis</th>
+                        <th rowspan="2">Imp%</th>
+                    </tr>
+                    <tr>
+                        <th>Angle°</th>
+                        <th>Imp%</th>
+                        <th>Angle°</th>
+                        <th>Imp%</th>
+                        <th>Angle°</th>
+                        <th>Imp%</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>IP</td>
+                        <td><input type="number" class="form-control" id="ipFlexion" required></td>
+                        <td id="ipFlexionImp">0</td>
+                        <td><input type="number" class="form-control" id="ipExtension" required></td>
+                        <td id="ipExtensionImp">0</td>
+                        <td><input type="number" class="form-control" id="ipAnkylosis" required></td>
+                        <td id="ipAnkylosisImp">0</td>
+                        <td id="ipImp">0</td>
+                    </tr>
+                    <tr>
+                        <td>MP</td>
+                        <td><input type="number" class="form-control" id="mpFlexion" required></td>
+                        <td id="mpFlexionImp">0</td>
+                        <td><input type="number" class="form-control" id="mpExtension" required></td>
+                        <td id="mpExtensionImp">0</td>
+                        <td><input type="number" class="form-control" id="mpAnkylosis" required></td>
+                        <td id="mpAnkylosisImp">0</td>
+                        <td id="mpImp">0</td>
+                    </tr>
+                    <tr>
+                        <td>CMC Radial Abduction</td>
+                        <td><input type="number" class="form-control" id="radialAbduction" required></td>
+                        <td id="radialAbductionImp">0</td>
+                        <td colspan="2"></td>
+                        <td><input type="number" class="form-control" id="radialAbductionAnkylosis" required></td>
+                        <td id="radialAbductionAnkylosisImp">0</td>
+                        <td id="radialAbductionImpTotal">0</td>
+                    </tr>
+                    <tr>
+                        <td>CMC Adduction</td>
+                        <td><input type="number" class="form-control" id="adduction" required></td>
+                        <td id="adductionImp">0</td>
+                        <td colspan="2"></td>
+                        <td><input type="number" class="form-control" id="adductionAnkylosis" required></td>
+                        <td id="adductionAnkylosisImp">0</td>
+                        <td id="adductionImpTotal">0</td>
+                    </tr>
+                    <tr>
+                        <td>CMC Opposition</td>
+                        <td><input type="number" class="form-control" id="opposition" required></td>
+                        <td id="oppositionImp">0</td>
+                        <td colspan="2"></td>
+                        <td><input type="number" class="form-control" id="oppositionAnkylosis" required></td>
+                        <td id="oppositionAnkylosisImp">0</td>
+                        <td id="oppositionImpTotal">0</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-center">
+                <button type="button" class="btn btn-primary" onclick="calculateImp()">Calculate</button>
+            </div>
+            <h3 class="text-center mt-4">Total Digit Impairment %: <span id="totalImp">0</span></h3>
+        </form>
     </div>
-    <div id="result"></div>
-    <script src="script.js"></script>
     <script src="thumb.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
